@@ -14,11 +14,11 @@ Parameters:
 Mappings:
   DomainName:
     dev:
-      name: user-pool-dev-test
+      name: user-pool-service-dev
     staging:
-      name: user-pool-staging
+      name: user-pool-service-staging
     prod:
-      name: user-pool-prod
+      name: user-pool-service-prod
 
 Resources:
   #Creates an Amazon Cognito user pool
