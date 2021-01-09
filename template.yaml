@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Cognito Stack
+Resources:
+  #Creates an Amazon Cognito user pool
+  UserPool:
+    Type: "AWS::Cognito::UserPool"
+    Properties:
+      UserPoolName: user-pool-test
+      Schema:
+        - Name: name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: email
+          AttributeDataType: String
+          Mutable: false
+          Required: true
+        - Name: phone_number
+          AttributeDataType: String
+          Mutable: false
+          Required: true
+  #Specifies an Amazon Cognito user pool client
+  UserPoolClient:
+    Type: "AWS::Cognito::UserPoolClient"
+    Properties:
+      ClientName: user-pool-client
+      GenerateSecret: false
+      UserPoolId: !Ref UserPool
+      AllowedOAuthFlows: 
+        - code
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthScopes: 
+        - phone
+        - email
+        - openid
+        - profile
+      CallbackURLs: 
+        - http://localhost:3000/authenticated
+      DefaultRedirectURI: http://localhost:3000/authenticated
+      LogoutURLs:
+        - http://localhost:3000/signedout
+      SupportedIdentityProviders:
+        - COGNITO
+  #Creates a new domain for a user pool
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: userpooltestase
+      UserPoolId: !Ref UserPool
+Outputs:
+  UserPoolId:
+    Value: !Ref UserPool
+    Export: 
+      Name: "UserPool::Id"
+  UserPoolClientId: 
+    Value: !Ref UserPoolClient
+    Export: 
+      Name: "UserPoolClient::Id"
+  UserPoolArn: 
+    Value: !GetAtt UserPool.Arn
+    Export: 
+      Name: "UserPoolArn"
