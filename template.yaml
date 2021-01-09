@@ -69,14 +69,12 @@ Resources:
       UserPoolId: !Ref UserPool
 Outputs:
   UserPoolId:
-    Value: !Ref UserPool
-    Export:
-      Name: "UserPool::Id"
+    Description: "UserPoolId"
+    Value: "UserPool::Id"
   UserPoolClientId:
+    Description: "UserPoolClientId"
     Value: !Ref UserPoolClient
-    Export:
-      Name: "UserPoolClient::Id"
   UserPoolArn:
+    Description: "UserPoolArn"
     Value: !GetAtt UserPool.Arn
-    Export:
-      Name: "UserPoolArn"
+
