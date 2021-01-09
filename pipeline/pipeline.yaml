@@ -145,71 +145,79 @@ Resources:
                         - Name: SourceCodeAsZip
                       OutputArtifacts:
                         - Name: BuildArtifactAsZip
-                # - Name: dev
-                #   Actions:
-                #     - Name: CreateChangeSet
-                #       ActionTypeId:
-                #         Category: Deploy
-                #         Owner: AWS
-                #         Provider: CloudFormation
-                #         Version: "1"
-                #       Configuration:
-                #       # More info on Possible Values for Cloudformation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html#w2ab2c13c13b9
-                #         ActionMode: CHANGE_SET_REPLACE
-                #         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                #         StackName: aws-sam-pipeline-user-registration-dev
-                #         ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-dev
-                #         TemplatePath: BuildArtifactAsZip::packaged.yaml
-                #         Capabilities: CAPABILITY_IAM
-                #       InputArtifacts:
-                #         - Name: BuildArtifactAsZip
-                #       RunOrder: 1
-                #     - Name: ExecuteChangeSet
-                #       ActionTypeId:
-                #         Category: Deploy
-                #         Owner: AWS
-                #         Provider: CloudFormation
-                #         Version: "1"
-                #       Configuration:
-                #         ActionMode: CHANGE_SET_EXECUTE
-                #         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                #         StackName: aws-sam-pipeline-user-registration-dev
-                #         ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-dev
-                #       OutputArtifacts:
-                #         - Name: aws-sam-pipeline-user-registrationDevChangeSet
-                #       RunOrder: 2
-                # - Name: staging
-                  # Actions:
-                  #   - Name: CreateChangeSet
-                  #     ActionTypeId:
-                  #       Category: Deploy
-                  #       Owner: AWS
-                  #       Provider: CloudFormation
-                  #       Version: "1"
-                  #     Configuration:
-                  #       ActionMode: CHANGE_SET_REPLACE
-                  #       RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                  #       StackName: aws-sam-pipeline-user-registration-staging
-                  #       ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-staging
-                  #       TemplatePath: BuildArtifactAsZip::packaged.yaml
-                  #       Capabilities: CAPABILITY_IAM
-                  #     InputArtifacts:
-                  #       - Name: BuildArtifactAsZip
-                  #     RunOrder: 1
-                  #   - Name: ExecuteChangeSet
-                  #     ActionTypeId:
-                  #       Category: Deploy
-                  #       Owner: AWS
-                  #       Provider: CloudFormation
-                  #       Version: "1"
-                  #     Configuration:
-                  #       ActionMode: CHANGE_SET_EXECUTE
-                  #       RoleArn: !GetAtt CloudFormationExecutionRole.Arn
-                  #       StackName: aws-sam-pipeline-user-registration-staging
-                  #       ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-staging
-                  #     OutputArtifacts:
-                  #       - Name: aws-sam-pipeline-user-registrationStagingChangeSet
-                  #     RunOrder: 2
+                - Name: dev
+                  Actions:
+                    - Name: CreateChangeSet
+                      ActionTypeId:
+                        Category: Deploy
+                        Owner: AWS
+                        Provider: CloudFormation
+                        Version: "1"
+                      Configuration:
+                      # More info on Possible Values for Cloudformation: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html#w2ab2c13c13b9
+                        ParameterOverrides: |
+                            {
+                              "Environment" : "dev"
+                            }
+                        ActionMode: CHANGE_SET_REPLACE
+                        RoleArn: !GetAtt CloudFormationExecutionRole.Arn
+                        StackName: aws-sam-pipeline-user-registration-dev
+                        ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-dev
+                        TemplatePath: BuildArtifactAsZip::packaged.yaml
+                        Capabilities: CAPABILITY_IAM
+                      InputArtifacts:
+                        - Name: BuildArtifactAsZip
+                      RunOrder: 1
+                    - Name: ExecuteChangeSet
+                      ActionTypeId:
+                        Category: Deploy
+                        Owner: AWS
+                        Provider: CloudFormation
+                        Version: "1"
+                      Configuration:
+                        ActionMode: CHANGE_SET_EXECUTE
+                        RoleArn: !GetAtt CloudFormationExecutionRole.Arn
+                        StackName: aws-sam-pipeline-user-registration-dev
+                        ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-dev
+                      OutputArtifacts:
+                        - Name: aws-sam-pipeline-user-registrationDevChangeSet
+                      RunOrder: 2
+                - Name: staging
+                  Actions:
+                    - Name: CreateChangeSet
+                      ActionTypeId:
+                        Category: Deploy
+                        Owner: AWS
+                        Provider: CloudFormation
+                        Version: "1"
+                      Configuration:
+                        ParameterOverrides: |
+                            {
+                              "Environment" : "staging"
+                            }
+                        ActionMode: CHANGE_SET_REPLACE
+                        RoleArn: !GetAtt CloudFormationExecutionRole.Arn
+                        StackName: aws-sam-pipeline-user-registration-staging
+                        ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-staging
+                        TemplatePath: BuildArtifactAsZip::packaged.yaml
+                        Capabilities: CAPABILITY_IAM
+                      InputArtifacts:
+                        - Name: BuildArtifactAsZip
+                      RunOrder: 1
+                    - Name: ExecuteChangeSet
+                      ActionTypeId:
+                        Category: Deploy
+                        Owner: AWS
+                        Provider: CloudFormation
+                        Version: "1"
+                      Configuration:
+                        ActionMode: CHANGE_SET_EXECUTE
+                        RoleArn: !GetAtt CloudFormationExecutionRole.Arn
+                        StackName: aws-sam-pipeline-user-registration-staging
+                        ChangeSetName: aws-sam-pipeline-user-registration-ChangeSet-staging
+                      OutputArtifacts:
+                        - Name: aws-sam-pipeline-user-registrationStagingChangeSet
+                      RunOrder: 2
                 - Name: prod
                   Actions:
                     - Name: DeploymentApproval
@@ -226,6 +234,10 @@ Resources:
                         Provider: CloudFormation
                         Version: "1"
                       Configuration:
+                        ParameterOverrides: |
+                            {
+                              "Environment" : "prod"
+                            }
                         ActionMode: CHANGE_SET_REPLACE
                         RoleArn: !GetAtt CloudFormationExecutionRole.Arn
                         StackName: aws-sam-pipeline-user-registration-prod

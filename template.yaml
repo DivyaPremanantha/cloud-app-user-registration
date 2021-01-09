@@ -1,5 +1,25 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Cognito Stack
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Environment of this stack of resources
+
+Mappings:
+  DomainName:
+    dev:
+      domainName: user-pool-service-dev
+    staging:
+      domainName: user-pool-service-staging
+    prod:
+      domainName: user-pool-service-prod
+
 Resources:
   #Creates an Amazon Cognito user pool
   UserPool:
@@ -45,7 +65,7 @@ Resources:
   UserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: userpoolservice
+      Domain: !FindInMap [DomainName, !Ref Environment, domainName]
       UserPoolId: !Ref UserPool
 Outputs:
   UserPoolId:
