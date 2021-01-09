@@ -26,15 +26,15 @@ Resources:
       ClientName: user-pool-client
       GenerateSecret: false
       UserPoolId: !Ref UserPool
-      AllowedOAuthFlows: 
+      AllowedOAuthFlows:
         - code
       AllowedOAuthFlowsUserPoolClient: true
-      AllowedOAuthScopes: 
+      AllowedOAuthScopes:
         - phone
         - email
         - openid
         - profile
-      CallbackURLs: 
+      CallbackURLs:
         - http://localhost:3000/authenticated
       DefaultRedirectURI: http://localhost:3000/authenticated
       LogoutURLs:
@@ -50,13 +50,13 @@ Resources:
 Outputs:
   UserPoolId:
     Value: !Ref UserPool
-    Export: 
+    Export:
       Name: "UserPool::Id"
-  UserPoolClientId: 
+  UserPoolClientId:
     Value: !Ref UserPoolClient
-    Export: 
+    Export:
       Name: "UserPoolClient::Id"
-  UserPoolArn: 
+  UserPoolArn:
     Value: !GetAtt UserPool.Arn
-    Export: 
+    Export:
       Name: "UserPoolArn"
