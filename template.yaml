@@ -14,18 +14,18 @@ Parameters:
 Mappings:
   DomainName:
     dev:
-      domainName: user-pool-dev
+      name: user-pool-dev-test
     staging:
-      domainName: user-pool-staging
+      name: user-pool-staging
     prod:
-      domainName: user-pool-prod
+      name: user-pool-prod
 
 Resources:
   #Creates an Amazon Cognito user pool
   UserPool:
     Type: "AWS::Cognito::UserPool"
     Properties:
-      UserPoolName: !FindInMap [DomainName, !Ref Environment, domainName]
+      UserPoolName: !FindInMap [DomainName, !Ref Environment, name]
       Schema:
         - Name: name
           AttributeDataType: String
@@ -65,7 +65,7 @@ Resources:
   UserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !FindInMap [DomainName, !Ref Environment, domainName]
+      Domain: !FindInMap [DomainName, !Ref Environment, name]
       UserPoolId: !Ref UserPool
 Outputs:
   UserPoolId:
