@@ -15,10 +15,13 @@ Mappings:
   DomainName:
     dev:
       name: user-pool-service-dev
+      arn: UserPoolArnDev
     staging:
       name: user-pool-service-staging
+      arn: UserPoolArnStaging
     prod:
       name: user-pool-service-prod
+      arn: UserPoolArnProd
 
 Resources:
   #Creates an Amazon Cognito user pool
@@ -78,5 +81,5 @@ Outputs:
     Description: "UserPoolArn"
     Value: !GetAtt UserPool.Arn
     Export: 
-      Name: !FindInMap [DomainName, !Ref Environment, name]
+      Name: !FindInMap [DomainName, !Ref Environment, arn]
 
