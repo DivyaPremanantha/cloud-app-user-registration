@@ -77,4 +77,6 @@ Outputs:
   UserPoolArn:
     Description: "UserPoolArn"
     Value: !GetAtt UserPool.Arn
+    Export: 
+      Name: !FindInMap [DomainName, !Ref Environment, name]
 
